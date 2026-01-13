@@ -2,6 +2,46 @@ let projects = JSON.parse(localStorage.getItem('unikama_projects')) || [];
 let currentFilter = 0; 
 let selectedId = null;
 
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Cegah Chrome menampilkan prompt otomatis
+    e.preventDefault();
+
+    // Simpan event-nya
+    deferredPrompt = e;
+
+    // Tampilkan tombol install
+    installBtn.style.display = 'block';
+});
+
+installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+
+    // Tampilkan dialog install
+    deferredPrompt.prompt();
+
+    // Tunggu respon user
+    const choiceResult = await deferredPrompt.userChoice;
+
+    if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted PWA install');
+    } else {
+        console.log('User dismissed PWA install');
+    }
+
+    // Event hanya bisa dipakai sekali
+    deferredPrompt = null;
+    installBtn.style.display = 'none';
+});
+
+// Optional: sembunyikan tombol jika sudah terinstall
+window.addEventListener('appinstalled', () => {
+    installBtn.style.display = 'none';
+    console.log('PWA was installed');
+});
+
 // Register Service Worker
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
