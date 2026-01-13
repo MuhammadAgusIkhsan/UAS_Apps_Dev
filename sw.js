@@ -1,24 +1,33 @@
 const CACHE_NAME = 'unikama-project-v1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/app.js',
-  '/manifest.json',
-  '/alarm.mp3' // Suara alarm di-cache juga!
+  './',              // Gunakan ./ untuk merujuk folder saat ini
+  './index.html',
+  './style.css',
+  './app.js',
+  './manifest.json',
+  // Jika link audio ini bermasalah, hapus sementara untuk tes
+  './alarm.mp3' 
 ];
 
-// 1. Tahap Install: Simpan semua aset ke dalam cache
+// Tahap Install
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            console.log('SW: Mengunduh aset untuk mode offline...');
-            return cache.addAll(ASSETS_TO_CACHE);
+            console.log('SW: Memulai caching aset...');
+            // Menggunakan map agar jika satu gagal, yang lain tetap bisa diidentifikasi
+            return Promise.all(
+                ASSETS_TO_CACHE.map((url) => {
+                    return cache.add(url).catch((err) => {
+                        console.error(`SW: Gagal melakukan cache pada file: ${url}`, err);
+                    });
+                })
+            );
         })
     );
     self.skipWaiting();
 });
 
+// ... (sisanya sama dengan kode sebelumnya)
 // 2. Tahap Activate: Hapus cache lama jika ada update
 self.addEventListener('activate', (event) => {
     event.waitUntil(
