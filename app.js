@@ -51,6 +51,7 @@ function toLocal(date) {
     const pad = n => n.toString().padStart(2, '0');
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
+
 function saveProject() {
     const dl = document.getElementById('deadline').value;
     const al = document.getElementById('alarmTime').value;
@@ -59,7 +60,6 @@ function saveProject() {
         showMsg("Waktu Alarm Salah", "Alarm minimal harus 5 menit sebelum deadline!");
         return;
     }
-
     const data = {
         mk: document.getElementById('mkName').value,
         task: document.getElementById('taskName').value,
@@ -161,4 +161,5 @@ function markAsDone() { const idx = projects.findIndex(p => p.id === selectedId)
 function executeDelete() { projects = projects.filter(p => p.id !== selectedId); localStorage.setItem('unikama_projects', JSON.stringify(projects)); closeModal('deleteModal'); renderProjects(); }
 function openConfirmDelete() { closeModal('actionModal'); document.getElementById('deleteModal').style.display = 'flex'; }
 function setFilter(val, btn) { currentFilter = val; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderProjects(); }
+
 
