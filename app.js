@@ -44,12 +44,12 @@ function setMinAlarm() {
 
     const minTime = now;
     const maxTime = new Date(dl.getTime() - 5 * 60000);
-
-    alarmInput.min = toLocal(minTime);
-    alarmInput.max = toLocal(maxTime);
+alarmInput.min = toLocal(minTime);
+alarmInput.max = toLocal(maxTime);
 }
 function toLocal(date) {
-    return date.toISOString().slice(0,16);
+    const pad = n => n.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 function saveProject() {
     const dl = document.getElementById('deadline').value;
