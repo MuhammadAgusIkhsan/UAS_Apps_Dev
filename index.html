@@ -13,19 +13,16 @@
     <h2>Project Tracker SI UNIKAMA</h2>
     <div id="homePage">
         <div class="header-tools">
-            <input type="text" id="searchInput" placeholder="🔍 Cari nama tugas atau matkul..." oninput="renderProjects()">
+            <input type="text" id="searchInput" placeholder="🔍 Cari nama tugas..." oninput="renderProjects()">
         </div>
-        <button id="installBtn" class="btn-add" style="display:none;">
-                📲 Install Aplikasi
-        </button>
+        <button id="installBtn" class="btn-add" style="display:none;">📲 Install Aplikasi</button>
+        
         <div class="filter-group">
-            <button class="filter-btn" onclick="setFilter('all', this)">Semua</button>
-            <button class="filter-btn active" onclick="setFilter(0, this)">Hari Ini</button>
-            <button class="filter-btn" onclick="setFilter(1, this)">1 Hari</button>
-            <button class="filter-btn" onclick="setFilter(3, this)">3 Hari</button>
-            <button class="filter-btn" onclick="setFilter(5, this)">5 Hari</button>
+            <button class="filter-btn active" onclick="setFilter('all', this)">Semua</button>
+            <button class="filter-btn" onclick="setFilter(0, this)">Hari Ini</button>
             <button class="filter-btn" onclick="setFilter(7, this)">1 Minggu</button>
         </div>
+
         <button class="btn-add" onclick="openAddModal()">+ Tambah Tugas Baru</button>
         <div id="projectList"></div>
     </div>
@@ -33,21 +30,21 @@
 
 <div id="formModal" class="modal">
     <div class="modal-content">
-        <h3 id="modalTitle" style="margin-top:0; color:var(--primary)">Tambah Aktivitas</h3>
+        <h3 id="modalTitle" style="color:var(--primary)">Data Tugas</h3>
         <form id="projectForm" onsubmit="event.preventDefault(); saveProject();">
             <label>Mata Kuliah</label>
             <input type="text" id="mkName" required>
-            <label>Nama Tugas / Proyek</label>
+            <label>Nama Tugas</label>
             <input type="text" id="taskName" required>
             <label>Deadline</label>
             <input type="datetime-local" id="deadline" onchange="setMinAlarm()" required>
-            <label>Waktu Alarm (Maks. 5 Menit Sebelum Deadline)</label>
+            <label>Waktu Alarm</label>
             <input type="datetime-local" id="alarmTime" required>
             <label>Progress (%)</label>
             <input type="number" id="progress" min="0" max="100" value="0">
-            <label>Catatan Tambahan</label>
+            <label>Catatan</label>
             <textarea id="activity" rows="2"></textarea>
-            <button type="submit" class="btn-add" style="margin-bottom:0">Simpan Data</button>
+            <button type="submit" class="btn-add">Simpan Data</button>
         </form>
         <button class="btn-close-modal" onclick="closeModal('formModal')">Batal</button>
     </div>
@@ -55,7 +52,7 @@
 
 <div id="actionModal" class="modal">
     <div class="modal-content" style="text-align:center;">
-        <h3 id="actionTargetName" style="margin-top:0; color:var(--primary);"></h3>
+        <h3 id="actionTargetName" style="color:var(--primary);"></h3>
         <div class="action-grid">
             <button class="action-btn btn-done" onclick="markAsDone()">Selesai</button>
             <button class="action-btn btn-edit" onclick="prepareEdit()">Edit</button>
@@ -65,26 +62,10 @@
     </div>
 </div>
 
-<div id="deleteModal" class="modal">
-    <div class="modal-content" style="text-align:center;">
-        <h3 style="color:var(--danger)">Hapus Tugas?</h3>
-        <div class="action-grid">
-            <button class="action-btn btn-delete" onclick="executeDelete()">Hapus</button>
-            <button class="action-btn" style="background:#ccc; color:black" onclick="closeModal('deleteModal')">Batal</button>
-        </div>
-    </div>
-</div>
+<div id="deleteModal" class="modal"><div class="modal-content" style="text-align:center;"><h3 style="color:var(--danger)">Hapus?</h3><div class="action-grid"><button class="action-btn btn-delete" onclick="executeDelete()">Ya</button><button class="action-btn" style="background:#ccc" onclick="closeModal('deleteModal')">Batal</button></div></div></div>
+<div id="msgModal" class="modal"><div class="modal-content" style="text-align:center;"><h3 id="msgTitle"></h3><p id="msgBody"></p><button class="btn-add" onclick="closeModal('msgModal')">OK</button></div></div>
 
-<div id="msgModal" class="modal">
-    <div class="modal-content" style="text-align:center;">
-        <h3 id="msgTitle">Pesan</h3>
-        <p id="msgBody"></p>
-        <button class="btn-add" onclick="closeModal('msgModal')">OK</button>
-    </div>
-</div>
-
-<audio id="alarmSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto" loop></audio>
-
+<audio id="alarmSound" src="./alarm.mp3" preload="auto" loop></audio>
 <script src="app.js"></script>
 </body>
 </html>
