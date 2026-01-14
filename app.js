@@ -161,3 +161,4 @@ function markAsDone() { const idx = projects.findIndex(p => p.id === selectedId)
 function executeDelete() { projects = projects.filter(p => p.id !== selectedId); localStorage.setItem('unikama_projects', JSON.stringify(projects)); closeModal('deleteModal'); renderProjects(); }
 function openConfirmDelete() { closeModal('actionModal'); document.getElementById('deleteModal').style.display = 'flex'; }
 function setFilter(val, btn) { currentFilter = val; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderProjects(); }
+
